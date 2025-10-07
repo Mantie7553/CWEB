@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const multer = require('multer');
-const {query, validationResult} = require('express-validator');
+const {validationResult, check} = require('express-validator');
 const fs = require('fs');
 
 const uploadFuncs = multer({
@@ -34,14 +34,16 @@ router.get('/application', function(req, res) {
 
 router.post('/application',
     uploadFuncs.fields([{name: 'uploadFile', maxCount: 1}]),
-    query('nameInput, phoneInput, emailInput, positionInput, uploadFile').notEmpty().trim(),
-    query('emailInput.').isEmail().withMessage("Please enter a valid email address"),
-    query('phoneInput').matches(/[0-9]{3}-[0-9]{3}-[0-9]{4}/).withMessage("Format of phone numbers must match ###-###-####"),
+    check('nameInput, phoneInput, emailInput, positionInput, uploadFile', 'Must enter field').notEmpty().trim(),
+    check('emailInput', 'Format of emails must match name@domain').isEmail(),
+    check('phoneInput', "Format of phone numbers must match ###-###-####").matches(/[0-9]{3}-[0-9]{3}-[0-9]{4}/),
     function (req, res) {
         const errors = validationResult(req);
-        // if (!errors.isEmpty()) {
-        //   return res.status(400).json({errors: errors.array()});
-        // }
+        if (!errors.isEmpty())
+        {
+            const errorStrings = errors.array();
+            res.render('job-application', {title: 'Failed', errored: true, errorStrings});
+        }
 
         res.render('job-application', { title: 'Job Application'});
 });

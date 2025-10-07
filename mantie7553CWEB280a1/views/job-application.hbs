@@ -1,40 +1,30 @@
 <h2 class="text-secondary">{{title}}</h2>
-<form method="post" id="career-form" enctype="multipart/form-data" class="needs-validation" novalidate>
+<form method="post" id="career-form" enctype="multipart/form-data" class="needs-validation">
     <div id="nameField">
         <label for="nameInput" class="text-secondary form-label">Name:</label>
         <input type="text" name="nameInput" id="nameInput" required placeholder="John Doe" class="form-control"/>
-        <div class="invalid-feedback">
-            <p>Please enter a name</p>
-        </div>
     </div>
     <div id="emailField">
         <label for="emailInput" class="text-secondary form-label">Email:</label>
         <input type="email" name="emailInput" id="emailInput" placeholder="email@domain" required  class="form-control"/>
-        <div class="invalid-feedback">
-            <p>Please enter an email in the format: name@domain</p>
-        </div>
     </div>
     <div id="phoneField">
         <label for="phoneInput" class="text-secondary form-label">Phone:</label>
         <input type="text" name="phoneInput" id="phoneInput"
-               required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" class="form-control"/>
-        <div class="invalid-feedback">
-            <p>Please enter a phone number in the format: ###-###-####</p>
-        </div>
+               required  placeholder="###-###-####" class="form-control"/>
     </div>
     <div id="positionField">
         <label for="positionInput" class="text-secondary form-label">Position:</label>
         <input type="text" name="positionInput" id="positionInput" required class="form-control"/>
-        <div class="invalid-feedback">
-            <p>Please enter a position</p>
-        </div>
     </div>
     <div id="uploadField">
         <label for="uploadFile" class="text-secondary form-label">Upload Resume:</label>
         <input type="file" name="uploadFile" id="uploadFile" required  class="form-control"/>
-        <div class="invalid-feedback">
-            <p>Please upload a resume</p>
-        </div>
+        {{#if errored}}
+            {{#each errorStrings}}
+                <div>{{msg}}</div>
+            {{/each}}
+        {{/if}}
     </div>
     <div id="buttons" class="container m-3">
         <button type="submit" class="btn btn-primary btn-large">Submit</button>
