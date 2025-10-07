@@ -7,11 +7,17 @@
     <div id="emailField">
         <label for="emailInput" class="text-secondary form-label">Email:</label>
         <input type="email" name="emailInput" id="emailInput" placeholder="email@domain" required  class="form-control"/>
+        {{#if emailMessage}}
+            <div>{{emailMessage}}</div>
+        {{/if}}
     </div>
     <div id="phoneField">
         <label for="phoneInput" class="text-secondary form-label">Phone:</label>
         <input type="text" name="phoneInput" id="phoneInput"
                required  placeholder="###-###-####" class="form-control"/>
+        {{#if phoneMessage}}
+            <div>{{phoneMessage}}</div>
+        {{/if}}
     </div>
     <div id="positionField">
         <label for="positionInput" class="text-secondary form-label">Position:</label>
@@ -20,11 +26,6 @@
     <div id="uploadField">
         <label for="uploadFile" class="text-secondary form-label">Upload Resume:</label>
         <input type="file" name="uploadFile" id="uploadFile" required  class="form-control"/>
-        {{#if errored}}
-            {{#each errorStrings}}
-                <div>{{msg}}</div>
-            {{/each}}
-        {{/if}}
     </div>
     <div id="buttons" class="container m-3">
         <button type="submit" class="btn btn-primary btn-large">Submit</button>

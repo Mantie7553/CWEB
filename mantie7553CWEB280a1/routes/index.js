@@ -34,15 +34,29 @@ router.get('/application', function(req, res) {
 
 router.post('/application',
     uploadFuncs.fields([{name: 'uploadFile', maxCount: 1}]),
-    check('nameInput, phoneInput, emailInput, positionInput, uploadFile', 'Must enter field').notEmpty().trim(),
     check('emailInput', 'Format of emails must match name@domain').isEmail(),
     check('phoneInput', "Format of phone numbers must match ###-###-####").matches(/[0-9]{3}-[0-9]{3}-[0-9]{4}/),
     function (req, res) {
         const errors = validationResult(req);
+
+        let emailMessage = '';
+        let phoneMessage = '';
+
         if (!errors.isEmpty())
         {
-            const errorStrings = errors.array();
-            res.render('job-application', {title: 'Failed', errored: true, errorStrings});
+            for (let err of errors.array())
+            {
+                let stringError = err.msg.toString();
+                if (stringError.includes('email'))
+                {
+                    emailMessage = err.msg;
+                }
+                else
+                {
+                    phoneMessage = err.msg;
+                }
+            }
+            res.render('job-application', {title: 'Failed', emailMessage, phoneMessage});
         }
 
         res.render('job-application', { title: 'Job Application'});
