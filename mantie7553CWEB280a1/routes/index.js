@@ -34,8 +34,15 @@ router.get('/application', function(req, res) {
 
 router.post('/application',
     uploadFuncs.fields([{name: 'uploadFile', maxCount: 1}]),
-    query('nameInput, phoneInput, emailInput, positionInput, uploadFile').notEmpty(),
+    query('nameInput, phoneInput, emailInput, positionInput, uploadFile').notEmpty().trim(),
+    query('emailInput.').isEmail().withMessage("Please enter a valid email address"),
+    query('phoneInput').matches(/[0-9]{3}-[0-9]{3}-[0-9]{4}/).withMessage("Format of phone numbers must match ###-###-####"),
     function (req, res) {
+        const errors = validationResult(req);
+        // if (!errors.isEmpty()) {
+        //   return res.status(400).json({errors: errors.array()});
+        // }
+
         res.render('job-application', { title: 'Job Application'});
 });
 
