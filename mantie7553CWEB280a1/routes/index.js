@@ -6,7 +6,7 @@ const {validationResult, check} = require('express-validator');
 const fs = require('fs');
 
 const uploadFuncs = multer({
-  dest: 'public/pdfs',
+  dest: 'public/uploads',
   fileFilter: function (req, file, cb) {
     if (file.mimetype === 'application/pdf') {
       cb(null, true);
@@ -18,6 +18,14 @@ const uploadFuncs = multer({
   },
   limits: {filesize: 1024 * 1024 * 5} //max size of 5mb
 });
+
+const moveFile = (file, newPath) => {
+    console.log(file.originalname);
+    newPath += file.filename + '-' + file.originalname;
+    fs.rename(file.path, newPath, (err) => {
+        if (err) throw err;
+    })
+}
 
 
 /* GET home page */
@@ -32,6 +40,7 @@ router.get('/application', function(req, res) {
 
 });
 
+/* POST application page */
 router.post('/application',
     uploadFuncs.fields([{name: 'uploadFile', maxCount: 1}]),
     check('emailInput', 'Format of emails must match name@domain').isEmail(),
@@ -57,6 +66,14 @@ router.post('/application',
                 }
             }
             res.render('job-application', {title: 'Failed', emailMessage, phoneMessage});
+        }
+
+        for (const [fileArray] of Object.entries(req.files))
+        {
+            for (let file of fileArray)
+            {
+                moveFile(file,__dirname + '/../public/pdfs');
+            }
         }
 
         res.render('job-application', { title: 'Job Application'});

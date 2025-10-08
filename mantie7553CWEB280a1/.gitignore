@@ -1,3 +1,7 @@
+# uploaded pdf files
+*/pdfs/*
+*/uploads/*
+
 # Logs
 logs
 *.log
