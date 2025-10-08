@@ -1,0 +1,13 @@
+<div class="container">
+    <p>Event Listing</p>
+    {{#each thing}}
+        <div class="card">
+            <h2>{{id}}</h2>
+            <h3>{{title}}</h3>
+            <p>{{type}}</p>
+            <p>{{open}}</p>
+            <p>{{date}}</p>
+            <p>{{description}}</p>
+        </div>
+    {{/each}}
+</div>
