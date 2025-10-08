@@ -20,11 +20,12 @@ const uploadFuncs = multer({
 });
 
 const moveFile = (file, newPath) => {
-    console.log(file.originalname);
     newPath += file.filename + '-' + file.originalname;
     fs.rename(file.path, newPath, (err) => {
         if (err) throw err;
     })
+    file.filename += '-' + file.originalname;
+    file.path = newPath;
 }
 
 
@@ -68,15 +69,17 @@ router.post('/application',
             res.render('job-application', {title: 'Failed', emailMessage, phoneMessage});
         }
 
-        for (const [fileArray] of Object.entries(req.files))
-        {
-            for (let file of fileArray)
-            {
-                moveFile(file,__dirname + '/../public/pdfs');
-            }
-        }
+        // let uploadedFile = req.files['uploadFile'];
+        // moveFile(uploadedFile,__dirname + '/../public/pdfs');
 
-        res.render('job-application', { title: 'Job Application'});
+        res.render('job-application', {
+            title: 'Job Application',
+            completed: true,
+            name: req.body.nameInput,
+            email: req.body.emailInput,
+            phone: req.body.phoneInput,
+            position: req.body.positionInput
+        });
 });
 
 module.exports = router;
