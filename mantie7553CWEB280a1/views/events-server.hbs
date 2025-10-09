@@ -3,14 +3,14 @@
     <form method="get">
         <label for="typeInput">Event Type</label>
         <select id="typeInput" name="type">
-            <option value="all">All</option>
+            <option value="">All</option>
             <option value="workshop">workshop</option>
             <option value="meetup">meetup</option>
             <option value="seminar">seminar</option>
         </select>
         <label for="statusInput">Status</label>
         <select id="statusInput" name="status">
-            <option value="all">All</option>
+            <option value="">All</option>
             <option value="true">Open</option>
             <option value="false">Sold Out</option>
         </select>
@@ -36,15 +36,15 @@
 
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" href="{{disablePrev}}" aria-label="Previous" >
+            <a class="page-link" {{#if prev}}href="{{prev}}{{filterParams}}"{{/if}} aria-label="Previous" >
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href='?page1'>1</a></li>
-        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-        <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+        <li class="page-item"><a class="page-link" href='?page=1{{filterParams}}'>1</a></li>
+        <li class="page-item"><a class="page-link" href="?page=2{{filterParams}}">2</a></li>
+        <li class="page-item"><a class="page-link" href="?page=3{{filterParams}}">3</a></li>
         <li class="page-item">
-            <a class="page-link" href="{{disableNext}}" aria-label="Next">
+            <a class="page-link" {{#if next}}href="{{next}}{{filterParams}}"{{/if}} aria-label="Next">
                 <span aria-hidden="true" >&raquo;</span>
             </a>
         </li>
