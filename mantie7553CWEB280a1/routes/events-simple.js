@@ -6,7 +6,13 @@ router.get('/events', function(req, res) {
     let pageNum = req.query.page ? parseInt(req.query.page) : 1;
     let disableNext = req.query.page === "3" ? "" : `/events/?page=${pageNum + 1}`;
     let disablePrev = req.query.page === "1" ? '' : `/events/?page=${pageNum - 1}`;
-    let eventArray = filterEvents(req.query.status, req.query.type);
+    let filter = null;
+    if (req.query)
+    {
+        filter = req.query;
+    }
+
+    let eventArray = filterEvents(filter);
     let eventItems = getPagedEvents(pageNum, eventArray);
     eventItems = changeDate(eventItems);
 

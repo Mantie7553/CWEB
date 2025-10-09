@@ -31,22 +31,12 @@ class Event
 
 }
 
-exports.filterEvents = (status, type) => {
-    type = type !== null ? type : 'all';
-    status = status !== null ? status : 'all';
-    let copyArray = [];
-    for (let entry of events)
+exports.filterEvents = (filter) => {
+    if (filter)
     {
-        if (entry.type === type || type === 'all')
-        {
-            copyArray.push(new Event(entry));
-        }
-        else if (entry.status === status || status === 'all')
-        {
-            copyArray.push(new Event(entry));
-        }
+        return events.filter((event) => event.status === filter.status || event.type === filter.type);
     }
-    return copyArray;
+    return events;
 }
 
 exports.changeDate = (originArray) => {
