@@ -31,24 +31,46 @@ class Event
 
 }
 
-exports.changeDate = () => {
+exports.filterEvents = (status, type) => {
+    type = type !== null ? type : 'all';
+    status = status !== null ? status : 'all';
     let copyArray = [];
-    for (let i = 0; i < events.length; i++)
+    for (let entry of events)
     {
-        copyArray[i] = new Event(events[i]);
-        let difference = Math.ceil((new Date(events[i].date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+        if (entry.type === type || type === 'all')
+        {
+            copyArray.push(new Event(entry));
+        }
+        else if (entry.status === status || status === 'all')
+        {
+            copyArray.push(new Event(entry));
+        }
+    }
+    return copyArray;
+}
+
+exports.changeDate = (originArray) => {
+    let copyArray = [];
+    for (let i = 0; i < originArray.length; i++)
+    {
+        copyArray[i] = new Event(originArray[i]);
+        let difference =
+            Math.ceil((new Date(originArray[i].date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
         copyArray[i].date = difference < 0 ? null : difference;
     }
     return copyArray;
 }
 
-exports.getPagedEvents = (pageNum) => {
-    pageNum = pageNum !== '' ? pageNum : 1;
-    let trimmedArray = [];
+exports.getPagedEvents = (pageNum, originArray) => {
+    pageNum = pageNum !== null ? pageNum : 1;
+    let copyArray = [];
     let pos = (pageNum-1) * 4;
-    for (pos; pos < events.length; pos++)
+    for (let i = 0; i < 4; i++)
     {
-        trimmedArray.push();
+        if (pos + i < originArray.length)
+        {
+            copyArray.push(new Event(originArray[pos+ i]));
+        }
     }
-    return trimmedArray;
+    return copyArray;
 }

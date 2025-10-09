@@ -9,10 +9,10 @@
             <option value="seminar">seminar</option>
         </select>
         <label for="statusInput">Status</label>
-        <select id="statusInput" name="type">
+        <select id="statusInput" name="status">
             <option value="all">All</option>
-            <option value="open">Open</option>
-            <option value="closed">Sold Out</option>
+            <option value="true">Open</option>
+            <option value="false">Sold Out</option>
         </select>
         <button type="submit">Filter</button>
     </form>
@@ -36,16 +36,16 @@
 
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
+            <a class="page-link" href="{{disablePrev}}" aria-label="Previous" >
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-        <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+        <li class="page-item"><a class="page-link" href="?page=1&">1</a></li>
+        <li class="page-item"><a class="page-link" href="?page=2&">2</a></li>
+        <li class="page-item"><a class="page-link" href="?page=3&">3</a></li>
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
+            <a class="page-link" href="{{disableNext}}" aria-label="Next">
+                <span aria-hidden="true" >&raquo;</span>
             </a>
         </li>
     </ul>

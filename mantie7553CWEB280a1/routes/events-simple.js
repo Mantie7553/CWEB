@@ -1,11 +1,22 @@
 const  express = require('express');
 const router = express.Router();
-const {changeDate, getPagedEvents} = require("../controllers/event-controllers");
+const {changeDate, getPagedEvents, filterEvents} = require("../controllers/event-controllers");
 
 router.get('/events', function(req, res) {
-    let eventItems = changeDate();
+    let pageNum = req.query.page ? parseInt(req.query.page) : 1;
+    let disableNext = req.query.page === "3" ? "" : `/events/?page=${pageNum + 1}`;
+    let disablePrev = req.query.page === "1" ? '' : `/events/?page=${pageNum - 1}`;
+    let eventArray = filterEvents(req.query.status, req.query.type);
+    let eventItems = getPagedEvents(pageNum, eventArray);
+    eventItems = changeDate(eventItems);
+
     // let eventItems = getPagedEvents(req.query.page);
-    res.render('events-server', {title: 'Events', eventItems})
+    res.render('events-server', {
+        title: 'Events',
+        eventItems,
+        disableNext,
+        disablePrev,
+    })
 })
 
 
