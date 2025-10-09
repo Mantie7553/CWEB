@@ -1,13 +1,52 @@
 <div class="container">
-    <p>Event Listing</p>
-    {{#each thing}}
+    <h1>{{title}}</h1>
+    <form method="get">
+        <label for="typeInput">Event Type</label>
+        <select id="typeInput" name="type">
+            <option value="all">All</option>
+            <option value="workshop">workshop</option>
+            <option value="meetup">meetup</option>
+            <option value="seminar">seminar</option>
+        </select>
+        <label for="statusInput">Status</label>
+        <select id="statusInput" name="type">
+            <option value="all">All</option>
+            <option value="open">Open</option>
+            <option value="closed">Sold Out</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    {{#each eventItems}}
         <div class="card">
-            <h2>{{id}}</h2>
             <h3>{{title}}</h3>
             <p>{{type}}</p>
-            <p>{{open}}</p>
-            <p>{{date}}</p>
+            {{#if open}}
+                <p>Available</p>
+            {{else}}
+                <p>Sold Out</p>
+            {{/if}}
+            {{#if date}}
+                <p>Closes in {{date}} days</p>
+            {{else}}
+                <p>Already Closed!</p>
+            {{/if}}
             <p>{{description}}</p>
         </div>
     {{/each}}
+
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+        <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
 </div>

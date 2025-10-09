@@ -10,3 +10,45 @@ const events = [
     { id: 9, title: "Node Security", type: "seminar", open: true, date: "2025-11-15", description: "Security best practices." },
     { id: 10, title: "AI Ethics", type: "seminar", open: false, date: "2025-05-22", description: "Ethics talk." },
 ];
+
+class Event
+{
+    id;
+    title;
+    type;
+    open;
+    date;
+    description;
+    constructor(event) {
+        this.id = event.id;
+        this.title = event.title;
+        this.type = event.type;
+        this.open = event.open;
+        this.date = event.date;
+        this.description = event.description;
+    }
+
+
+}
+
+exports.changeDate = () => {
+    let copyArray = [];
+    for (let i = 0; i < events.length; i++)
+    {
+        copyArray[i] = new Event(events[i]);
+        let difference = Math.ceil((new Date(events[i].date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+        copyArray[i].date = difference < 0 ? null : difference;
+    }
+    return copyArray;
+}
+
+exports.getPagedEvents = (pageNum) => {
+    pageNum = pageNum !== '' ? pageNum : 1;
+    let trimmedArray = [];
+    let pos = (pageNum-1) * 4;
+    for (pos; pos < events.length; pos++)
+    {
+        trimmedArray.push();
+    }
+    return trimmedArray;
+}
