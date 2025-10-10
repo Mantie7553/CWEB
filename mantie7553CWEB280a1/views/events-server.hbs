@@ -3,36 +3,39 @@
     <form method="get">
         <label for="typeInput">Event Type</label>
         <select id="typeInput" name="type">
-            <option value="">All</option>
+            <option value="undefined">All</option>
             <option value="workshop">workshop</option>
             <option value="meetup">meetup</option>
             <option value="seminar">seminar</option>
         </select>
         <label for="statusInput">Status</label>
         <select id="statusInput" name="status">
-            <option value="">All</option>
+            <option value="undefined">All</option>
             <option value="true">Open</option>
             <option value="false">Sold Out</option>
         </select>
         <button type="submit">Filter</button>
     </form>
-    {{#each eventItems}}
-        <div class="card">
-            <h3>{{title}}</h3>
-            <p>{{type}}</p>
-            {{#if open}}
-                <p>Available</p>
-            {{else}}
-                <p>Sold Out</p>
-            {{/if}}
-            {{#if date}}
-                <p>Closes in {{date}} days</p>
-            {{else}}
-                <p>Already Closed!</p>
-            {{/if}}
-            <p>{{description}}</p>
-        </div>
-    {{/each}}
+    <ul>
+        {{#each eventItems}}
+            <li class="card">
+                <h3>{{title}}</h3>
+                <p>{{type}}</p>
+                {{#if open}}
+                    <p>Available</p>
+                {{else}}
+                    <p>Sold Out</p>
+                {{/if}}
+                {{#if date}}
+                    <p>Closes in {{date}} days</p>
+                {{else}}
+                    <p>Already Closed!</p>
+                {{/if}}
+                <p>{{description}}</p>
+            </li>
+        {{/each}}
+    </ul>
+
 
     <ul class="pagination">
         <li class="page-item">

@@ -34,7 +34,10 @@ class Event
 exports.filterEvents = (filter) => {
     if (filter)
     {
-        return events.filter((event) => event.status === filter.status || event.type === filter.type);
+        if (filter.type !== 'undefined' && filter.status !== 'undefined')
+        {
+            return events.filter((event) => event.open.toString() === filter.status || event.type === filter.type);
+        }
     }
     return events;
 }

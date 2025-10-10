@@ -1,12 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-const eventsRouter = require('./routes/events-simple');
+const eventsRouter = require('./routes/events-server');
+const eventsAPIRouter = require('./routes/api-routes/events-api');
+const eventsUIRouter = require('./routes/events-ui');
 
 var app = express();
 
@@ -17,12 +17,12 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/',eventsRouter);
+app.use('/events',eventsRouter);
+app.use('/api', eventsAPIRouter);
+app.use('/ui', eventsUIRouter);
 
 app.use('/bw', express.static(__dirname + '/node_modules/bootswatch/dist'));
 

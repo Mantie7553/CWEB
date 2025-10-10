@@ -1,0 +1,85 @@
+<div class="container">
+    <h1>Events - Server</h1>
+    <form method="get">
+        <label for="typeInput">Event Type</label>
+        <select id="typeInput" name="type">
+            <option value="undefined">All</option>
+            <option value="workshop">workshop</option>
+            <option value="meetup">meetup</option>
+            <option value="seminar">seminar</option>
+        </select>
+        <label for="statusInput">Status</label>
+        <select id="statusInput" name="status">
+            <option value="undefined">All</option>
+            <option value="true">Open</option>
+            <option value="false">Sold Out</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <ul id="eventArea"></ul>
+
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" {{#if prev}}href="{{prev}}{{filterParams}}"{{/if}} aria-label="Previous" >
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href='?page=1{{filterParams}}'>1</a></li>
+        <li class="page-item"><a class="page-link" href="?page=2{{filterParams}}">2</a></li>
+        <li class="page-item"><a class="page-link" href="?page=3{{filterParams}}">3</a></li>
+        <li class="page-item">
+            <a class="page-link" {{#if next}}href="{{next}}{{filterParams}}"{{/if}} aria-label="Next">
+                <span aria-hidden="true" >&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<script>
+    const API_URL_EVENTS = 'http://localhost:3000/api/events';
+    const typeInput = document.getElementById('typeInput');
+    const statusInput = document.getElementById('statusInput');
+    const eventArea = document.getElementById('eventArea');
+
+    const showEvents = (eventArray) => {
+        eventArea.innerHTML = '';
+        eventArray.forEach((event) => {
+            eventArea.innerHTML += `
+            <li class="card">
+                <h3>${event.title}</h3>
+                <p>${event.type}</p>
+                <p>${event.open ? 'Available' : 'Sold Out'}</p>
+                <p>${event.date < 1 ? 'Already Closed!' : 'Closes in ' + event.date + ' days'}</p>
+                <p>${event.description}<p>
+            </li>`
+        })
+    }
+
+    const fetchEvents = () => {
+        let queryString = '/?';
+        queryString += typeInput.value === 'undefined' ? '' : `type=${typeInput.value}&`;
+        queryString += statusInput.value === 'undefined' ? '' : `status=${statusInput.value}&`;
+
+        fetch(`${API_URL_EVENTS}${queryString}`)
+                .then((resp) => {
+                    if (resp.ok)
+                    {
+                        return resp.json();
+                    }
+                    else
+                    {
+                        throw new Error("Unable to retrieve data from API")
+                    }
+                })
+                .then((dataFromApi) => {
+                    showEvents(dataFromApi);
+                })
+                .catch((err) => console.log(err));
+    }
+
+    window.onload = () => {
+        fetchEvents();
+    }
+
+</script>
