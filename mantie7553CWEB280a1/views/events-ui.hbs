@@ -21,17 +21,17 @@
 
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" href="{{prev}}{{filterParams}}" aria-label="Previous" >
+            <button type="button" onclick="fetchEvents(0)" class="page-link" aria-label="Previous" >
                 <span aria-hidden="true">&laquo;</span>
-            </a>
+            </button>
         </li>
-        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-        <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+        <li class="page-item"><button type="button" onclick="fetchEvents(1)" class="page-link">1</button></li>
+        <li class="page-item"><button type="button" onclick="fetchEvents(2)" class="page-link">2</button></li>
+        <li class="page-item"><button type="button" onclick="fetchEvents(3)" class="page-link">3</button></li>
         <li class="page-item">
-            <a class="page-link" href="{{next}}{{filterParams}}" aria-label="Next">
+            <button type="button" onclick="fetchEvents(4)" class="page-link"  aria-label="Next">
                 <span aria-hidden="true" >&raquo;</span>
-            </a>
+            </button>
         </li>
     </ul>
 </div>
@@ -56,10 +56,12 @@
         })
     }
 
-    const fetchEvents = () => {
+    const fetchEvents = (buttonValue) => {
         let queryString = '/?';
+        queryString += buttonValue ? `page=${buttonValue}&` : '';
         queryString += typeInput.value === 'undefined' ? 'type=undefined&' : `type=${typeInput.value}&`;
         queryString += statusInput.value === 'undefined' ? 'status=undefined&' : `status=${statusInput.value}&`;
+        console.log(queryString);
 
         fetch(`${API_URL_EVENTS}${queryString}`)
                 .then((resp) => {
