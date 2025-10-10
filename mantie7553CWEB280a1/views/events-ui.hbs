@@ -14,22 +14,22 @@
             <option value="true">Open</option>
             <option value="false">Sold Out</option>
         </select>
-        <button type="submit">Filter</button>
+        <button type="button" onclick="fetchEvents()">Filter</button>
     </form>
 
     <ul id="eventArea"></ul>
 
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" {{#if prev}}href="{{prev}}{{filterParams}}"{{/if}} aria-label="Previous" >
+            <a class="page-link" href="{{prev}}{{filterParams}}" aria-label="Previous" >
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href='?page=1{{filterParams}}'>1</a></li>
-        <li class="page-item"><a class="page-link" href="?page=2{{filterParams}}">2</a></li>
-        <li class="page-item"><a class="page-link" href="?page=3{{filterParams}}">3</a></li>
+        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+        <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
         <li class="page-item">
-            <a class="page-link" {{#if next}}href="{{next}}{{filterParams}}"{{/if}} aria-label="Next">
+            <a class="page-link" href="{{next}}{{filterParams}}" aria-label="Next">
                 <span aria-hidden="true" >&raquo;</span>
             </a>
         </li>
@@ -58,8 +58,8 @@
 
     const fetchEvents = () => {
         let queryString = '/?';
-        queryString += typeInput.value === 'undefined' ? '' : `type=${typeInput.value}&`;
-        queryString += statusInput.value === 'undefined' ? '' : `status=${statusInput.value}&`;
+        queryString += typeInput.value === 'undefined' ? 'type=undefined&' : `type=${typeInput.value}&`;
+        queryString += statusInput.value === 'undefined' ? 'status=undefined&' : `status=${statusInput.value}&`;
 
         fetch(`${API_URL_EVENTS}${queryString}`)
                 .then((resp) => {

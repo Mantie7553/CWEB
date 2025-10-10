@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/events', function (req,res){
     let pageNum = req.query.page ? parseInt(req.query.page) : 1;
+
     let filter = null;
     if (req.query)
     {
