@@ -34,10 +34,8 @@ class Event
 exports.filterEvents = (filter) => {
     if (filter)
     {
-        if (filter.type !== 'undefined' && filter.status !== 'undefined')
-        {
-            return events.filter((event) => event.open.toString() === filter.status || event.type === filter.type);
-        }
+        return events.filter((event) => (event.open.toString() === filter.status || filter.status === 'all')
+            && (event.type === filter.type || filter.type === 'all'));
     }
     return events;
 }

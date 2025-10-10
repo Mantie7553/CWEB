@@ -6,12 +6,10 @@ router.get('/', function(req, res) {
     let pageNum = req.query.page ? parseInt(req.query.page) : 1;
     let next = req.query.page === "3" ? "" : `/events/?page=${pageNum + 1}`;
     let prev = req.query.page === "1" ? '' : `/events/?page=${pageNum - 1}`;
+    req.query.type ??= 'all';
+    req.query.staus ??= 'all';
     let filterParams = `&type=${req.query.type}&status=${req.query.status}`;
-    let filter = null;
-    if (req.query)
-    {
-        filter = req.query;
-    }
+    let filter = req.query;
 
     let eventArray = filterEvents(filter);
     let eventItems = getPagedEvents(pageNum, eventArray);

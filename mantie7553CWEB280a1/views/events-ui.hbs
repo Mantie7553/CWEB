@@ -3,14 +3,14 @@
     <form method="get">
         <label for="typeInput">Event Type</label>
         <select id="typeInput" name="type">
-            <option value="undefined">All</option>
+            <option value="all">All</option>
             <option value="workshop">workshop</option>
             <option value="meetup">meetup</option>
             <option value="seminar">seminar</option>
         </select>
         <label for="statusInput">Status</label>
         <select id="statusInput" name="status">
-            <option value="undefined">All</option>
+            <option value="all">All</option>
             <option value="true">Open</option>
             <option value="false">Sold Out</option>
         </select>
@@ -21,7 +21,7 @@
 
     <ul class="pagination">
         <li class="page-item">
-            <button type="button" onclick="fetchEvents(0)" class="page-link" aria-label="Previous" >
+            <button type="button" onclick="fetchEvents()" class="page-link" aria-label="Previous" id="btn-prev">
                 <span aria-hidden="true">&laquo;</span>
             </button>
         </li>
@@ -29,7 +29,7 @@
         <li class="page-item"><button type="button" onclick="fetchEvents(2)" class="page-link">2</button></li>
         <li class="page-item"><button type="button" onclick="fetchEvents(3)" class="page-link">3</button></li>
         <li class="page-item">
-            <button type="button" onclick="fetchEvents(4)" class="page-link"  aria-label="Next">
+            <button type="button" onclick="fetchEvents()" class="page-link"  aria-label="Next" id="btn-next">
                 <span aria-hidden="true" >&raquo;</span>
             </button>
         </li>
@@ -59,8 +59,8 @@
     const fetchEvents = (buttonValue) => {
         let queryString = '/?';
         queryString += buttonValue ? `page=${buttonValue}&` : '';
-        queryString += typeInput.value === 'undefined' ? 'type=undefined&' : `type=${typeInput.value}&`;
-        queryString += statusInput.value === 'undefined' ? 'status=undefined&' : `status=${statusInput.value}&`;
+        queryString += typeInput.value === 'all' ? 'type=all&' : `type=${typeInput.value}&`;
+        queryString += statusInput.value === 'all' ? 'status=all&' : `status=${statusInput.value}&`;
         console.log(queryString);
 
         fetch(`${API_URL_EVENTS}${queryString}`)
