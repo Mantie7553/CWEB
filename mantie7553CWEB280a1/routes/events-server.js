@@ -7,7 +7,7 @@ router.get('/', function(req, res) {
     let next = req.query.page === "3" ? "" : `/events/?page=${pageNum + 1}`;
     let prev = req.query.page === "1" ? '' : `/events/?page=${pageNum - 1}`;
     req.query.type ??= 'all';
-    req.query.staus ??= 'all';
+    req.query.status ??= 'all';
     let filterParams = `&type=${req.query.type}&status=${req.query.status}`;
     let filter = req.query;
 

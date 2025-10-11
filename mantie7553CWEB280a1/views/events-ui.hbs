@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Events - Server</h1>
-    <form method="get">
+    <form method="get" id="filter-form">
         <label for="typeInput">Event Type</label>
         <select id="typeInput" name="type">
             <option value="all">All</option>
@@ -15,32 +15,29 @@
             <option value="false">Sold Out</option>
         </select>
         <button type="button" onclick="fetchEvents()">Filter</button>
+        <div id="error"></div>
     </form>
 
     <ul id="eventArea"></ul>
 
     <ul class="pagination">
-        <li class="page-item">
-            <button type="button" onclick="fetchEvents()" class="page-link" aria-label="Previous" id="btn-prev">
-                <span aria-hidden="true">&laquo;</span>
-            </button>
-        </li>
+        <li class="page-item" id="prev-li"></li>
         <li class="page-item"><button type="button" onclick="fetchEvents(1)" class="page-link">1</button></li>
         <li class="page-item"><button type="button" onclick="fetchEvents(2)" class="page-link">2</button></li>
         <li class="page-item"><button type="button" onclick="fetchEvents(3)" class="page-link">3</button></li>
-        <li class="page-item">
-            <button type="button" onclick="fetchEvents()" class="page-link"  aria-label="Next" id="btn-next">
-                <span aria-hidden="true" >&raquo;</span>
-            </button>
-        </li>
+        <li class="page-item" id="next-li"></li>
     </ul>
 </div>
 
 <script>
     const API_URL_EVENTS = 'http://localhost:3000/api/events';
+    const filterForm = document.getElementById('filter-form');
     const typeInput = document.getElementById('typeInput');
-    const statusInput = document.getElementById('statusInput');
+    const errorContainer = document.getElementById('error');
     const eventArea = document.getElementById('eventArea');
+    const nextLi = document.getElementById('next-li');
+    const prevLi = document.getElementById('prev-li');
+    let pageNum = 1;
 
     const showEvents = (eventArray) => {
         eventArea.innerHTML = '';
@@ -56,12 +53,26 @@
         })
     }
 
+    const handleNextAndPrev = () => {
+        console.log('page number when next / prev ' + pageNum);
+        nextLi.innerHTML = pageNum === 3 ? '' : `
+            <button type="button" onclick="fetchEvents(${pageNum + 1})" class="page-link"  aria-label="Next" id="btn-next">
+                <span aria-hidden="true" >&raquo;</span>
+            </button>`;
+
+        prevLi.innerHTML = pageNum === 1 ? '' : `
+            <button type="button" onclick="fetchEvents(${pageNum - 1})" class="page-link" aria-label="Previous" id="btn-prev">
+                <span aria-hidden="true">&laquo;</span>
+            </button>`;
+    }
+
     const fetchEvents = (buttonValue) => {
+        pageNum = buttonValue ? buttonValue : 1;
+        console.log('page number ' + pageNum);
         let queryString = '/?';
-        queryString += buttonValue ? `page=${buttonValue}&` : '';
+        queryString += buttonValue ? `page=${pageNum}&` : '';
         queryString += typeInput.value === 'all' ? 'type=all&' : `type=${typeInput.value}&`;
         queryString += statusInput.value === 'all' ? 'status=all&' : `status=${statusInput.value}&`;
-        console.log(queryString);
 
         fetch(`${API_URL_EVENTS}${queryString}`)
                 .then((resp) => {
@@ -75,9 +86,14 @@
                     }
                 })
                 .then((dataFromApi) => {
+                    handleNextAndPrev();
                     showEvents(dataFromApi);
+                    errorContainer.innerHTML = '';
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => {
+                    console.log(err);
+                    errorContainer.innerHTML = '<p>No other data to display</p>'
+                });
     }
 
     window.onload = () => {
