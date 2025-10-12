@@ -1,14 +1,14 @@
 <div class="container">
-    <h1>Events - Server</h1>
+    <h1 class="text-secondary">Events - Server</h1>
     <form method="get" id="filter-form">
-        <label for="typeInput">Event Type</label>
+        <label class="text-secondary" for="typeInput">Event Type</label>
         <select id="typeInput" name="type">
             <option value="all">All</option>
             <option value="workshop">workshop</option>
             <option value="meetup">meetup</option>
             <option value="seminar">seminar</option>
         </select>
-        <label for="statusInput">Status</label>
+        <label class="text-secondary" for="statusInput">Status</label>
         <select id="statusInput" name="status">
             <option value="all">All</option>
             <option value="true">Open</option>
@@ -22,9 +22,9 @@
 
     <ul class="pagination">
         <li class="page-item" id="prev-li"></li>
-        <li class="page-item"><button type="button" onclick="fetchEvents(1)" class="page-link">1</button></li>
-        <li class="page-item"><button type="button" onclick="fetchEvents(2)" class="page-link">2</button></li>
-        <li class="page-item"><button type="button" onclick="fetchEvents(3)" class="page-link">3</button></li>
+        <li class="page-item"><button type="button" onclick="fetchEvents(1)" class="page-link text-secondary">1</button></li>
+        <li class="page-item"><button type="button" onclick="fetchEvents(2)" class="page-link text-secondary">2</button></li>
+        <li class="page-item"><button type="button" onclick="fetchEvents(3)" class="page-link text-secondary">3</button></li>
         <li class="page-item" id="next-li"></li>
     </ul>
 </div>
@@ -43,7 +43,7 @@
         eventArea.innerHTML = '';
         eventArray.forEach((event) => {
             eventArea.innerHTML += `
-            <li class="card">
+            <li class="card text-secondary">
                 <h3>${event.title}</h3>
                 <p>${event.type}</p>
                 <p>${event.open ? 'Available' : 'Sold Out'}</p>
@@ -56,12 +56,12 @@
     const handleNextAndPrev = () => {
         console.log('page number when next / prev ' + pageNum);
         nextLi.innerHTML = pageNum === 3 ? '' : `
-            <button type="button" onclick="fetchEvents(${pageNum + 1})" class="page-link"  aria-label="Next" id="btn-next">
+            <button type="button" onclick="fetchEvents(${pageNum + 1})" class="page-link text-secondary"  aria-label="Next" id="btn-next">
                 <span aria-hidden="true" >&raquo;</span>
             </button>`;
 
         prevLi.innerHTML = pageNum === 1 ? '' : `
-            <button type="button" onclick="fetchEvents(${pageNum - 1})" class="page-link" aria-label="Previous" id="btn-prev">
+            <button type="button" onclick="fetchEvents(${pageNum - 1})" class="page-link text-secondary" aria-label="Previous" id="btn-prev">
                 <span aria-hidden="true">&laquo;</span>
             </button>`;
     }

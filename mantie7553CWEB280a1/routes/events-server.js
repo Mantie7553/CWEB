@@ -2,6 +2,7 @@ const  express = require('express');
 const router = express.Router();
 const {changeDate, getPagedEvents, filterEvents} = require("../controllers/event-controllers");
 
+/* renders the events page */
 router.get('/', function(req, res) {
     let pageNum = req.query.page ? parseInt(req.query.page) : 1;
     let next = req.query.page === "3" ? "" : `/events/?page=${pageNum + 1}`;

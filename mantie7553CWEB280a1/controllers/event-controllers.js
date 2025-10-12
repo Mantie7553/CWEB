@@ -11,6 +11,9 @@ const events = [
     { id: 10, title: "AI Ethics", type: "seminar", open: false, date: "2025-05-22", description: "Ethics talk." },
 ];
 
+/**
+ * Class that is used when adjusting the date of an event
+ */
 class Event
 {
     id;
@@ -31,6 +34,12 @@ class Event
 
 }
 
+/**
+ * Function to filter events so that they match the given type or status
+ * - handles both, either, or no filter values
+ * @param filter a value for a type and a value for a status
+ * @returns {[{date: string, description: string, id: number, title: string, type: string, open: boolean},{date: string, description: string, id: number, title: string, type: string, open: boolean},{date: string, description: string, id: number, title: string, type: string, open: boolean},{date: string, description: string, id: number, title: string, type: string, open: boolean},{date: string, description: string, id: number, title: string, type: string, open: boolean},null,null,null,null,null]|({date: string, description: string, id: number, title: string, type: string, open: boolean}|{date: string, description: string, id: number, title: string, type: string, open: boolean}|{date: string, description: string, id: number, title: string, type: string, open: boolean}|{date: string, description: string, id: number, title: string, type: string, open: boolean}|{date: string, description: string, id: number, title: string, type: string, open: boolean})[]}
+ */
 exports.filterEvents = (filter) => {
     if (filter)
     {
@@ -40,6 +49,14 @@ exports.filterEvents = (filter) => {
     return events;
 }
 
+/**
+ * Function to change the date to the difference in dates from the current date
+ * to the closing date
+ * - Creates a copy of each event as an Event object with a date value
+ * representing the number of days until the event date
+ * @param originArray the array of items we are adjusting
+ * @returns {*[]} an array of items with a different date attribute
+ */
 exports.changeDate = (originArray) => {
     let copyArray = [];
     for (let i = 0; i < originArray.length; i++)
@@ -52,6 +69,13 @@ exports.changeDate = (originArray) => {
     return copyArray;
 }
 
+/**
+ *  Function used to implement pagination
+ *  - Limits the number of items shown to 4
+ * @param pageNum the page number that is to be displayed
+ * @param originArray an array of items that has been put through the filter function
+ * @returns {*[]} an array of items to be displayed for the given page
+ */
 exports.getPagedEvents = (pageNum, originArray) => {
     pageNum = pageNum !== null ? pageNum : 1;
     let copyArray = [];

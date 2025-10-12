@@ -1,11 +1,11 @@
 <h2 class="text-secondary">{{title}}</h2>
 {{#if completed}}
     <ul>
-        <li>{{name}}</li>
-        <li>{{email}}</li>
-        <li>{{phone}}</li>
-        <li>{{position}}</li>
-        <li>
+        <li class="text-secondary">{{name}}</li>
+        <li class="text-secondary">{{email}}</li>
+        <li class="text-secondary">{{phone}}</li>
+        <li class="text-secondary">{{position}}</li>
+        <li class="text-secondary">
             <embed src="{{file}}" type="application/pdf">
         </li>
     </ul>
@@ -36,7 +36,7 @@
         </div>
         <div id="uploadField">
             <label for="uploadFile" class="text-secondary form-label">Upload Resume:</label>
-            <input type="file" name="uploadFile" id="uploadFile" required  class="form-control"/>
+            <input type="file" name="uploadFile" id="uploadFile" required  class="form-control text-secondary"/>
         </div>
         <div id="buttons" class="container m-3">
             <button type="submit" class="btn btn-primary btn-large">Submit</button>
