@@ -52,6 +52,13 @@ router.post('/application',
         let emailMessage = '';
         let phoneMessage = '';
 
+        for (const [fieldName, fileArray] of Object.entries(req.files))
+        {
+            for (const tempFile of fileArray)
+            {
+                moveFile(tempFile, __dirname + '/../public/pdfs/');
+            }
+        }
         if (!errors.isEmpty())
         {
             for (let err of errors.array())
@@ -78,7 +85,7 @@ router.post('/application',
             name: req.body.nameInput,
             email: req.body.emailInput,
             phone: req.body.phoneInput,
-            position: req.body.positionInput
+            position: req.body.positionInput,
         });
 });
 
