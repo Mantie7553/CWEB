@@ -1,12 +1,15 @@
+<h2 class="text-secondary">{{title}}</h2>
 {{#if completed}}
     <ul>
         <li>{{name}}</li>
         <li>{{email}}</li>
         <li>{{phone}}</li>
         <li>{{position}}</li>
+        <li>
+            <embed src="{{file}}" type="application/pdf">
+        </li>
     </ul>
 {{else}}
-    <h2 class="text-secondary">{{title}}</h2>
     <form method="post" id="career-form" enctype="multipart/form-data" class="needs-validation">
         <div id="nameField">
             <label for="nameInput" class="text-secondary form-label">Name:</label>

@@ -5,6 +5,12 @@ const multer = require('multer');
 const {validationResult, check} = require('express-validator');
 const fs = require('fs');
 
+/**
+ * Function used to handle error checking for pdf upload
+ * - Keeps size of uploaded files to less than 5mb
+ * - Confirms files are pdfs
+ * @type {Multer}
+ */
 const uploadFuncs = multer({
   dest: 'public/uploads',
   fileFilter: function (req, file, cb) {
@@ -19,6 +25,13 @@ const uploadFuncs = multer({
   limits: {filesize: 1024 * 1024 * 5} //max size of 5mb
 });
 
+/**
+ * Function that moves the uploaded file to the pdfs folder
+ * - All files will originally be added to the uploads folder
+ * - Once moved you can find the files under the pdfs folder
+ * @param file the file to be moved
+ * @param newPath the new path of the file
+ */
 const moveFile = (file, newPath) => {
     newPath += file.filename + '-' + file.originalname;
     fs.rename(file.path, newPath, (err) => {
@@ -51,12 +64,14 @@ router.post('/application',
 
         let emailMessage = '';
         let phoneMessage = '';
+        let fileToShow;
 
         for (const [fieldName, fileArray] of Object.entries(req.files))
         {
             for (const tempFile of fileArray)
             {
                 moveFile(tempFile, __dirname + '/../public/pdfs/');
+                fileToShow = tempFile;
             }
         }
         if (!errors.isEmpty())
@@ -73,12 +88,11 @@ router.post('/application',
                     phoneMessage = err.msg;
                 }
             }
-            res.render('job-application', {title: 'Failed', emailMessage, phoneMessage});
+            /* Display Error */
+            res.render('job-application', {title: 'Job Application', emailMessage, phoneMessage});
         }
 
-        // let uploadedFile = req.files['uploadFile'];
-        // moveFile(uploadedFile,__dirname + '/../public/pdfs');
-
+        /* Display information sent through form */
         res.render('job-application', {
             title: 'Job Application',
             completed: true,
@@ -86,6 +100,7 @@ router.post('/application',
             email: req.body.emailInput,
             phone: req.body.phoneInput,
             position: req.body.positionInput,
+            file: '/pdfs/' + fileToShow.filename
         });
 });
 
